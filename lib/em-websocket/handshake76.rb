@@ -32,9 +32,11 @@ module EventMachine::WebSocket
 
       def solve_challenge(first, second, third)
         # Refer to 5.2 4-9 of the draft 76
-        sum = [numbers_over_spaces(first)].pack("N*") +
-          [numbers_over_spaces(second)].pack("N*") +
-          third
+        sum = [numbers_over_spaces(first)].pack("N*")
+        sum += [numbers_over_spaces(second)].pack("N*")
+        sum.force_encoding('UTF-8')
+        sum += third
+        
         Digest::MD5.digest(sum)
       end
 
